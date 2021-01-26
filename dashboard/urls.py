@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from django.contrib.auth.decorators import login_required
 
 '''
 each url is connected to a view, which is the http response
@@ -15,6 +16,9 @@ urlpatterns = [
 	path('State/', views.StateTableView.as_view(), name='state-List'),
 	path('National/<int:pk>/', views.NationalDetailView.as_view(), name='national-detail'),
 	path('State/<int:pk>/', views.StateDetailView.as_view(), name='state-detail'),
+	path('National/<int:pk>/update/', views.NationalUpdateView.as_view(), name='national-update'),
+	path('State/<int:pk>/update', views.StateUpdateView.as_view(), name='state-update'),
+
 
 
 	#/dashboard/id/

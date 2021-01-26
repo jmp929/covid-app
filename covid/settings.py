@@ -41,9 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'accounts',
     'bootstrap4',
     'dashboard',
-    'django_filters',
+    'crispy_forms',
     'django_tables2',
 ]
 
@@ -128,3 +129,22 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+
+CRISPY_TEMPLATE_PACK="bootstrap4"
+
+LOGIN_REDIRECT_URL = "/dashboard/National"
+LOGOUT_REDIRECT_URL = "/dashboard/National"
+
+
+
+
+
+
+
+
+
+
+
+

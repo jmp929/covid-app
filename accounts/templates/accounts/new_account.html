@@ -1,0 +1,12 @@
+{% load crispy_forms_tags %}
+
+<h3>Create a New Account</h3>
+
+
+
+<form method="POST" class="form-group">
+
+	{% csrf_token %}
+	{{ accountForm|crispy }}
+	<button type="submit" class="btn btn-success">Submit</button>
+</form>

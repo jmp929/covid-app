@@ -2,9 +2,10 @@ from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from django.views.generic import (ListView, DetailView, UpdateView, DeleteView, CreateView)
 from .models import National, State
-from .tables import NationalTable, StateTable
+from .tables import NationalTable, StateTable, NationalTableLI, StateTableLI
 from datetime import datetime
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import permission_required, login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 import csv,  io
 from django_tables2 import SingleTableView
 from django_tables2.views import MultiTableMixin
@@ -23,25 +24,112 @@ class DashView(MultiTableMixin):
 	]
 
 class NationalTableView(SingleTableView):
-	table_class = NationalTable
 	model = National
 	template_name = "dashboard/national_list.html"
+	table_class = NationalTable
+	# def get_table_class(self):
+	# 	if self.request.user.is_authenticated:
+	# 		print("not here")
+	# 		return NationalTableLI
+	# 	else:
+	# 		print("here")
+	# 		return NationalTable
+
 
 class StateTableView(SingleTableView):
 	table_class = StateTable
+
 	model = State
 	template_name = "dashboard/state_list.html"
 
-class NationalDetailView(DetailView):
+class NationalDetailView(LoginRequiredMixin, DetailView):
+	login_url = '/login/'
+	redirect_field_name = 'login'
 	table_class = NationalTable
 	model = National
 	template_name = "dashboard/national_detail.html"
 
-class StateDetailView(DetailView):
+class StateDetailView(LoginRequiredMixin, DetailView):
+	login_url = '/login/'
+	redirect_field_name = 'login'
 	table_class = StateTable
 	model = State
 	template_name = "dashboard/state_detail.html"
 
+
+class NationalUpdateView(LoginRequiredMixin, UpdateView):
+	login_url = '/login/'
+	redirect_field_name = 'login'
+	model = National
+	template_name = "dashboard/national_update.html"
+
+	fields = ['date',
+			'death',
+			'deathIncrease',
+			'InIcuCumulative',
+			'InIcuCurrently',
+			'hospitalizedIncrease',
+			'hospitalizedCurrently',
+			'hospitalizedCumulative',
+			'negative',
+			'negativeIncrease',
+			'onVentilatorCumulative',
+			'onVentilatorCurrently',
+			'positive',
+			'positiveIncrease',
+			'states',
+			'totalTestResults',
+			'totalTestResultsIncrease',
+			]	
+
+#@login_required
+class StateUpdateView(LoginRequiredMixin, UpdateView):
+	model = State
+	template_name = "dashboard/state_update.html"
+	
+	fields = ["date",
+			"state",
+			"dataQualityGrade",
+			"death",
+			"deathConfirmed",
+			"deathIncrease",
+			"deathProbable",
+			"hospitalized",
+			"hospitalizedCumulative",
+			"hospitalizedCurrently",
+			"hospitalizedIncrease",
+			"inIcuCumulative",
+			"inIcuCurrently",
+			"negative",
+			"negativeIncrease",
+			"negativeTestsAntibody",
+			"negativeTestsPeopleAntibody",
+			"negativeTestsViral",
+			"onVentilatorCumulative",
+			"onVentilatorCurrently",
+			"positive",
+			"positiveCasesViral", 	
+			"positiveIncrease", 	
+			"positiveScore", 
+			"positiveTestsAntibody", 
+			"positiveTestsAntigen", 	
+			"positiveTestsPeopleAntibody",	
+			"positiveTestsPeopleAntigen", 	
+			"positiveTestsViral", 	
+			"recovered",
+			"totalTestEncountersViral", 	
+			"totalTestEncountersViralIncrease", 	
+			"totalTestResults", 	
+			"totalTestResultsIncrease", 	
+			"totalTestsAntibody", 	
+			"totalTestsAntigen", 
+			"totalTestsPeopleAntibody", 
+			"totalTestsPeopleAntigen", 	
+			"totalTestsPeopleViral", 	
+			"totalTestsPeopleViralIncrease", 	
+			"totalTestsViral", 	
+			"totalTestsViralIncrease"
+			]
 
 
 
@@ -69,7 +157,7 @@ def national_data_upload(request):
 	prik = request.FILES['file']
 
 	if not prik.name.endswith('.csv'):
-		messages.error(request, "not right")
+		messages.error(request, "incorrect file type")
 
 	data_set = prik.read().decode('UTF-8')
 	
