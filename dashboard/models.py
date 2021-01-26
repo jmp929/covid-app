@@ -3,23 +3,23 @@ from django.urls import reverse
 import django_tables2 as tables
 
 class National(models.Model):
-			date = models.DateField()
-			death = models.IntegerField(default=0)
-			deathIncrease = models.IntegerField(default=0)
-			InIcuCumulative = models.IntegerField(default=0)
-			InIcuCurrently = models.IntegerField(default=0)
-			hospitalizedIncrease = models.IntegerField(default=0)
-			hospitalizedCurrently = models.IntegerField(default=0)
-			hospitalizedCumulative = models.IntegerField(default=0)
-			negative = models.IntegerField(default=0)
-			negativeIncrease = models.IntegerField(default=0)
-			onVentilatorCumulative = models.IntegerField(default=0)
-			onVentilatorCurrently = models.IntegerField(default=0)
-			positive = models.IntegerField(default=0)
-			positiveIncrease = models.IntegerField(default=0)
-			states = models.IntegerField(default=0)
-			totalTestResults = models.IntegerField(default=0)
-			totalTestResultsIncrease = models.IntegerField(default=0)
+			date = models.DateField(unique=True, max_length=11)
+			death = models.IntegerField(default=0, max_length=11)
+			deathIncrease = models.IntegerField(default=0, max_length=11)
+			InIcuCumulative = models.IntegerField(default=0, max_length=11)
+			InIcuCurrently = models.IntegerField(default=0, max_length=11)
+			hospitalizedIncrease = models.IntegerField(default=0, max_length=11)
+			hospitalizedCurrently = models.IntegerField(default=0, max_length=11)
+			hospitalizedCumulative = models.IntegerField(default=0, max_length=11)
+			negative = models.IntegerField(default=0, max_length=11)
+			negativeIncrease = models.IntegerField(default=0, max_length=11)
+			onVentilatorCumulative = models.IntegerField(default=0, max_length=11)
+			onVentilatorCurrently = models.IntegerField(default=0, max_length=11)
+			positive = models.IntegerField(default=0, max_length=11)
+			positiveIncrease = models.IntegerField(default=0, max_length=11)
+			states = models.IntegerField(default=0, max_length=11)
+			totalTestResults = models.IntegerField(default=0, max_length=11)
+			totalTestResultsIncrease = models.IntegerField(default=0, max_length=11)
 
 			
 
@@ -80,8 +80,8 @@ class State(models.Model):
 			totalTestsViral = models.IntegerField(default=0) 	
 			totalTestsViralIncrease = models.IntegerField(default=0) 
 
-			def __str__(self):
-				return "states bitch"
+			class Meta:
+				unique_together = ['state', 'date']
 
 
 

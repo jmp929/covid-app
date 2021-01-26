@@ -1,20 +1,51 @@
-<h1>date: {{ object.date }}</h1>
-<p>state: {{ object.state }}</p>
-<p>Data Quality Grade: {{ object.dataQualityGrade }}</p>
-<p>Deaths: {{ object.death }}</p>
-<p>deathIncrease: {{ object.deathIncrease }}</p>
-<p>Death Probable: {{ object.deathProbable }}</p>
-<p>InIcuCumulative: {{ object.InIcuCumulative }}</p>
-<p>InIcuCurrently: {{ object.InIcuCurrently }}</p>
-<p>hospitalizedIncrease: {{ object.hospitalizedIncrease }}</p>
-<p>hospitalizedCurrently: {{ object.hospitalizedCurrently }}</p>
-<p>hospitalizedCumulative: {{ object.hospitalizedCumulative }}</p>
-<p>negative: {{ object.negative }}</p>
-<p>negativeIncrease: {{ object.negativeIncrease }}</p>
-<p>onVentilatorCumulative: {{ object.onVentilatorCumulative }}</p>
-<p>onVentilatorCurrently: {{ object.onVentilatorCurrently }}</p>
-<p>positive: {{ object.positive }}</p>
-<p>positiveIncrease: {{ object.positiveIncrease }}</p>
-<p>states: {{ object.states }}</p>
-<p>totalTestResults: {{ object.totalTestResults }}</p>
-<p>totalTestResultsIncrease: {{ object.totalTestResultsIncrease }}</p>
+{% include 'dashboard/bootstrap4.html' %}
+
+
+</style>
+
+<ul class="list-group">
+  <li class="list-group-item active">{{object.statet}} data for date: {{ object.date }}</li>
+  <li class="list-group-item">Deaths: {{ object.death }}</li>
+  <li class="list-group-item">Data Quality Grade: {{ object.dataQualityGrade }}</li>
+  <li class="list-group-item">deathIncrease: {{ object.deathIncrease }}</li>
+  <li class="list-group-item">InIcuCumulative: {{ object.InIcuCumulative }}</li>
+  <li class="list-group-item">InIcuCurrently: {{ object.InIcuCurrently }}</li>
+  <li class="list-group-item">hospitalizedIncrease: {{ object.hospitalizedIncrease }}</li>
+  <li class="list-group-item">hospitalizedCurrently: {{ object.hospitalizedCurrently }}</li>
+  <li class="list-group-item">hospitalizedCumulative: {{ object.hospitalizedCumulative }}</li>
+  <li class="list-group-item">negative: {{ object.negative }}</li>
+  <li class="list-group-item">negativeIncrease: {{ object.negativeIncrease }}</li>
+  <li class="list-group-item">onVentilatorCumulative: {{ object.onVentilatorCumulative }}</li>
+  <li class="list-group-item">onVentilatorCurrently: {{ object.onVentilatorCurrently }}</li>
+  <li class="list-group-item">positive: {{ object.positive }}</li>
+  <li class="list-group-item">positiveIncrease: {{ object.positiveIncrease }}</li>
+  <li class="list-group-item">states: {{ object.states }}</li>
+  <li class="list-group-item">totalTestResults: {{ object.totalTestResults }}</li>
+  <li class="list-group-item">totalTestResultsIncrease: {{ object.totalTestResultsIncrease }}</li>
+</ul>
+
+<p> 
+
+</p>
+
+<div class="card" style="width: 30rem; height: 10rem;">
+  <div class="card-body">
+    <h5 class="card-title">Notice Any Issues?</h5>
+    <p class="card-text">Please update the data accordingly or if need be, delete this data entry and enter a new one.</p>
+    <a href="/State/{{ object.id }}/update/" class="card-link">update</a>
+    <a href="/State/{{ object.id }}/delete/" class="card-link">Delete</a>
+  </div>
+</div>
+
+
+<!-- 
+
+
+<h3 style: blue> Notice something wrong with the data?</h3>
+
+
+<a href= "/dashboard/State/{{ object.id }}/update/">Update</a>
+
+
+<a href= "/dashboard/State/{{ object.id }}/delete/">Delete</a>
+ -->

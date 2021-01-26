@@ -16,10 +16,10 @@
 	{% csrf_token %}
 	<div class="card" style="width: 25rem; height: 10rem, background: blue">
   		<div class="card-body">
-    		<h5 class="card-title">Data for US on {{ object.date }}</h5>
+    		<h5 class="card-title">Data for {{ object.state }} on {{ object.date }}</h5>
     		<p class="card-text">Are you sure you want to delete?</p>
     		<input type="submit" value="Confirm">
-    		<a href="/National/{{object.id}}/" class="card-link">cancel</a>
+    		<a href="/State/{{object.id}}/" class="card-link">cancel</a>
   		</div>
 	</div>
 </form>

@@ -19,7 +19,7 @@ from accounts import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('dashboard/', include('dashboard.urls')),
+    path('', include('dashboard.urls')),
     path("accounts/", views.NewAccount, name="new-account"),
     path('', include("django.contrib.auth.urls")),
 

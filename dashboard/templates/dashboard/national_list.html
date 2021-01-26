@@ -1,38 +1,36 @@
-<!-- loads the path to static files -->
-
-{% load bootstrap4 %}
-
-
+{% include 'dashboard/bootstrap4.html' %}
 {% load render_table from django_tables2 %}
-<!doctype html>
+
 <html>
 
+<style>
+	.header {color: white;
+			text-align: center;
+			background: blue;}
+	.topright {
+		position:absolute;
+		top: 8px;
+		left:16px;
+		font-size: 18px;
+		color: red;
+	}
+	
+	body {background-color: white}
+</style>
+	
+	<div class="topright">
+		<a href="/">Back to Home Page</a>
+	</div>
+
     <head>
-        <title>US Covid history</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-        <h3>US Covid Data</h3>
+        <title>US National Covid history</title>
+        
+        <div class="header">
+        	<h1>US National Covid Data</h1>
+        </div>
     </head>
     <body>
         {% render_table table %}
-    	}
+    	
     </body>
 </html>
-
-
-<!-- <div class="pagination">
-	<span class="step-links">
-		{% if page_obj.has_previous %}
-			<a href="?page=1">&laquo; first</a>
-			<a href="?page={{ page_obj.previous_page_number }}">previous</a>
-		{% endif %}
-
-	<span class="current">
-		Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages}}.
-	</span>
-		{% if page_obj.has_next %}
-			<a href="?page={{ page_obj.next_page_number }}">next</a>
-			<a href="?page={{ page_onj.paginator.num_pages }}">last &raquo;</a>
-		{% endif %}
-	</span>
-</div> -->
-

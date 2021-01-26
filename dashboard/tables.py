@@ -8,9 +8,29 @@ class NationalTable(tables.Table):
 	class Meta:
 		model = National
 		template_name = "django_tables2/bootstrap4.html"
-		fields = {'id', 'date', 'death', 'InIcuCurrently', 'positive'}
-		sequence = ('id', 'date', 'death', 'InIcuCurrently', 'positive')
-		#edit = TemplateColumn(template_name='dashboard/national_list')
+		attrs = {'class': 'national_table', 'div': 'hdr'}
+		fields = ['date',
+			'death',
+			'positive',
+			'negative',
+			'hospitalizedCurrently',
+			'hospitalizedCumulative',
+			'InIcuCurrently',
+			'InIcuCumulative',
+			'onVentilatorCurrently',
+			'onVentilatorCumulative',
+			]
+		sequence = ('date',
+			'death',
+			'positive',
+			'negative',
+			'hospitalizedCurrently',
+			'hospitalizedCumulative',
+			'InIcuCurrently',
+			'InIcuCumulative',
+			'onVentilatorCurrently',
+			'onVentilatorCumulative',
+			)
 
 
 
@@ -18,9 +38,31 @@ class StateTable(tables.Table):
 	class Meta:
 		model = State
 		template_name = "django_tables2/bootstrap4.html"
-		fields = {'id', 'date', 'state', 'death', 'positive'}
-		sequence = ('id', 'date', 'state', 'death', 'positive')
-		#edit = TemplateColumn(template_name='dashboard/national_list')
+		attrs = {'class': 'state_table', 'div': 'body'}
+		fields = ['date',
+			'state',
+			'death',
+			'positive',
+			'negative',
+			'hospitalizedCurrently',
+			'hospitalizedCumulative',
+			'inIcuCurrently',
+			'inIcuCumulative',
+			'onVentilatorCurrently',
+			'onVentilatorCumulative',
+			]
+		sequence = ('date',
+			'state',
+			'death',
+			'positive',
+			'negative',
+			'hospitalizedCurrently',
+			'hospitalizedCumulative',
+			'inIcuCurrently',
+			'inIcuCumulative',
+			'onVentilatorCurrently',
+			'onVentilatorCumulative',
+			)
 
 
 class NationalTableLI(tables.Table):
@@ -31,20 +73,76 @@ class NationalTableLI(tables.Table):
 	class Meta:
 		model = National
 		template_name = "django_tables2/bootstrap4.html"
-		fields = {'id', 'date', 'death', 'InIcuCurrently', 'positive', 'edit'}
-		sequence = ('id', 'date', 'death', 'InIcuCurrently', 'positive', 'edit')
-		#edit = TemplateColumn(template_name='dashboard/national_list')
+		fields = ['date',
+			'death',
+			'positive',
+			'negative',
+			'hospitalizedCurrently',
+			'hospitalizedCumulative',
+			'InIcuCurrently',
+			'InIcuCumulative',
+			'onVentilatorCurrently',
+			'onVentilatorCumulative',
+			]
+		sequence = ('date',
+			'death',
+			'positive',
+			'negative',
+			'hospitalizedCurrently',
+			'hospitalizedCumulative',
+			'InIcuCurrently',
+			'InIcuCumulative',
+			'onVentilatorCurrently',
+			'onVentilatorCumulative',
+			)
 
-	
+
+
 
 
 class StateTableLI(tables.Table):
 
-	detail = tables.columns.LinkColumn('state_detail', args=[A('pk')])
+	edit = tables.columns.LinkColumn('dashboard:state-detail', text="edit", args=[A('pk')], orderable=False)
 
 	class Meta:
 		model = State
 		template_name = "django_tables2/bootstrap4.html"
-		fields = {'id', 'date', 'state', 'death', 'positive'}
-		sequence = ('id', 'date', 'state', 'death', 'positive')
-		#edit = TemplateColumn(template_name='dashboard/national_list')
+		fields = ['date',
+			'state',
+			'death',
+			'positive',
+			'negative',
+			'hospitalizedCurrently',
+			'hospitalizedCumulative',
+			'inIcuCurrently',
+			'inIcuCumulative',
+			'onVentilatorCurrently',
+			'onVentilatorCumulative',
+			'edit',
+			]
+		sequence = ('date',
+			'state',
+			'death',
+			'positive',
+			'negative',
+			'hospitalizedCurrently',
+			'hospitalizedCumulative',
+			'inIcuCurrently',
+			'inIcuCumulative',
+			'onVentilatorCurrently',
+			'onVentilatorCumulative',
+			'edit'
+			)
+
+
+
+
+
+
+
+
+
+
+
+
+

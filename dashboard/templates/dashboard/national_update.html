@@ -1,12 +1,23 @@
 {% load crispy_forms_tags %}
+{% include 'dashboard/bootstrap4.html' %}
 
-<h3>Update the fields for {{ form.date }}</h3>
+<style>
+.header{
+	color: white;
+	text-align: 50%;
+	background: blue;
+}
+</style>
+
+<div class="header">
+	<h1>Update Information</h1>
+</div>
 
 
 
 <form method="POST" class="form-group">
 
 	{% csrf_token %}
-	{{ form.as_p}}
+	{{ form|crispy}}
 	<button type="submit" class="btn btn-success">Submit</button>
 </form>

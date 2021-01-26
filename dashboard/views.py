@@ -2,18 +2,21 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator
 from django.views.generic import (ListView, DetailView, UpdateView, DeleteView, CreateView)
+from django.views.generic.base import TemplateView
 from .models import National, State
 from .tables import NationalTable, StateTable, NationalTableLI, StateTableLI
 from datetime import datetime
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 import csv,  io
+from django_filters.views import FilterView
 from django_tables2 import SingleTableView
 from django_tables2.views import MultiTableMixin
 from django.contrib import messages
+from .filters import NationalFilter
 
 
-class DashView(MultiTableMixin):
+class DashboardView(MultiTableMixin, TemplateView):
 	template_name = 'dashboard/dash.html'
 
 	query1 = National.objects.all()
@@ -24,10 +27,11 @@ class DashView(MultiTableMixin):
 		StateTable(query2)
 	]
 
-class NationalTableView(SingleTableView):
+class NationalTableView(SingleTableView, FilterView):
 	model = National
 	template_name = "dashboard/national_list.html"
 
+	filter_class = NationalFilter
 	def get_table_class(self):
 		if self.request.user.is_authenticated:
 			print("not here")
@@ -42,105 +46,99 @@ class StateTableView(SingleTableView):
 
 	model = State
 	template_name = "dashboard/state_list.html"
+	def get_table_class(self):
+		if self.request.user.is_authenticated:
+			print("not here")
+			return StateTableLI
+		else:
+			print("here")
+			return StateTable
 
 class NationalDetailView(LoginRequiredMixin, DetailView):
 	login_url = '/login/'
 	redirect_field_name = 'login'
 	model = National
+	fields = ['date',
+			'death',
+			'positive',
+			'negative',
+			'hospitalizedCurrently',
+			'hospitalizedCumulative',
+			'inIcuCurrently',
+			'inIcuCumulative',
+			'onVentilatorCurrently',
+			'onVentilatorCumulative',
+			]
 	template_name = "dashboard/national_detail.html"
 
 class StateDetailView(LoginRequiredMixin, DetailView):
 	login_url = '/login/'
 	redirect_field_name = 'login'
 	model = State
+	fields = ['date',
+			'state',
+			'death',
+			'positive',
+			'negative',
+			'hospitalizedCurrently',
+			'hospitalizedCumulative',
+			'inIcuCurrently',
+			'inIcuCumulative',
+			'onVentilatorCurrently',
+			'onVentilatorCumulative',
+			]
 	template_name = "dashboard/state_detail.html"
 
 
 class NationalDeleteView(LoginRequiredMixin, DeleteView):
 	login_url = '/login/'
 	redirect_field_name = 'login'
-	success_url = reverse_lazy('national-List')
+	success_url = reverse_lazy('dashboard:national-List')
 	model = National
-	template_name = "dashboard/national_detail.html"
+	template_name = "dashboard/national_delete.html"
 
 class StateDeleteView(LoginRequiredMixin, DeleteView):
 	login_url = '/login/'
 	redirect_field_name = 'login'
-	success_url = reverse_lazy('national-List')
+	success_url = reverse_lazy('dashboard:state-List')
 	model = State
-	template_name = "dashboard/state_detail.html"
+	template_name = "dashboard/state_delete.html"
 
 class NationalCreateView(LoginRequiredMixin, CreateView):
 	login_url = '/login/'
 	redirect_field_name = 'login'
 	model = National
+	success_url = reverse_lazy('dashboard:national-List')
 	template_name = "dashboard/national_create.html"
 	fields = ['date',
 			'death',
-			'deathIncrease',
-			'InIcuCumulative',
-			'InIcuCurrently',
-			'hospitalizedIncrease',
+			'positive',
+			'negative',
 			'hospitalizedCurrently',
 			'hospitalizedCumulative',
-			'negative',
-			'negativeIncrease',
-			'onVentilatorCumulative',
+			'InIcuCurrently',
+			'InIcuCumulative',
 			'onVentilatorCurrently',
-			'positive',
-			'positiveIncrease',
-			'states',
-			'totalTestResults',
-			'totalTestResultsIncrease',
-			]	
+			'onVentilatorCumulative',
+			]
 
 class StateCreateView(LoginRequiredMixin, CreateView):
 	login_url = '/login/'
 	redirect_field_name = 'login'
 	model = State
+	success_url = reverse_lazy('dashboard:state-List')
 	template_name = "dashboard/national_create.html"
-	fields = ["date",
-			"state",
-			"dataQualityGrade",
-			"death",
-			"deathConfirmed",
-			"deathIncrease",
-			"deathProbable",
-			"hospitalized",
-			"hospitalizedCumulative",
-			"hospitalizedCurrently",
-			"hospitalizedIncrease",
-			"inIcuCumulative",
-			"inIcuCurrently",
-			"negative",
-			"negativeIncrease",
-			"negativeTestsAntibody",
-			"negativeTestsPeopleAntibody",
-			"negativeTestsViral",
-			"onVentilatorCumulative",
-			"onVentilatorCurrently",
-			"positive",
-			"positiveCasesViral", 	
-			"positiveIncrease", 	
-			"positiveScore", 
-			"positiveTestsAntibody", 
-			"positiveTestsAntigen", 	
-			"positiveTestsPeopleAntibody",	
-			"positiveTestsPeopleAntigen", 	
-			"positiveTestsViral", 	
-			"recovered",
-			"totalTestEncountersViral", 	
-			"totalTestEncountersViralIncrease", 	
-			"totalTestResults", 	
-			"totalTestResultsIncrease", 	
-			"totalTestsAntibody", 	
-			"totalTestsAntigen", 
-			"totalTestsPeopleAntibody", 
-			"totalTestsPeopleAntigen", 	
-			"totalTestsPeopleViral", 	
-			"totalTestsPeopleViralIncrease", 	
-			"totalTestsViral", 	
-			"totalTestsViralIncrease"
+	fields = ['date',
+			'state',
+			'death',
+			'positive',
+			'negative',
+			'hospitalizedCurrently',
+			'hospitalizedCumulative',
+			'inIcuCurrently',
+			'inIcuCumulative',
+			'onVentilatorCurrently',
+			'onVentilatorCumulative',
 			]
 
 
@@ -148,86 +146,37 @@ class NationalUpdateView(LoginRequiredMixin, UpdateView):
 	login_url = '/login/'
 	redirect_field_name = 'login'
 	model = National
+	success_url = reverse_lazy('dashboard:national-List')
 	template_name = "dashboard/national_update.html"
 
 	fields = ['date',
 			'death',
-			'deathIncrease',
-			'InIcuCumulative',
-			'InIcuCurrently',
-			'hospitalizedIncrease',
+			'positive',
+			'negative',
 			'hospitalizedCurrently',
 			'hospitalizedCumulative',
-			'negative',
-			'negativeIncrease',
-			'onVentilatorCumulative',
+			'InIcuCurrently',
+			'InIcuCumulative',
 			'onVentilatorCurrently',
-			'positive',
-			'positiveIncrease',
-			'states',
-			'totalTestResults',
-			'totalTestResultsIncrease',
-			]	
+			'onVentilatorCumulative',
+			]
 
 #@login_required
 class StateUpdateView(LoginRequiredMixin, UpdateView):
 	model = State
 	template_name = "dashboard/state_update.html"
-	
-	fields = ["date",
-			"state",
-			"dataQualityGrade",
-			"death",
-			"deathConfirmed",
-			"deathIncrease",
-			"deathProbable",
-			"hospitalized",
-			"hospitalizedCumulative",
-			"hospitalizedCurrently",
-			"hospitalizedIncrease",
-			"inIcuCumulative",
-			"inIcuCurrently",
-			"negative",
-			"negativeIncrease",
-			"negativeTestsAntibody",
-			"negativeTestsPeopleAntibody",
-			"negativeTestsViral",
-			"onVentilatorCumulative",
-			"onVentilatorCurrently",
-			"positive",
-			"positiveCasesViral", 	
-			"positiveIncrease", 	
-			"positiveScore", 
-			"positiveTestsAntibody", 
-			"positiveTestsAntigen", 	
-			"positiveTestsPeopleAntibody",	
-			"positiveTestsPeopleAntigen", 	
-			"positiveTestsViral", 	
-			"recovered",
-			"totalTestEncountersViral", 	
-			"totalTestEncountersViralIncrease", 	
-			"totalTestResults", 	
-			"totalTestResultsIncrease", 	
-			"totalTestsAntibody", 	
-			"totalTestsAntigen", 
-			"totalTestsPeopleAntibody", 
-			"totalTestsPeopleAntigen", 	
-			"totalTestsPeopleViral", 	
-			"totalTestsPeopleViralIncrease", 	
-			"totalTestsViral", 	
-			"totalTestsViralIncrease"
+	success_url = reverse_lazy('dashboard:state-List')
+	fields = ['date',
+			'death',
+			'positive',
+			'negative',
+			'hospitalizedCurrently',
+			'hospitalizedCumulative',
+			'inIcuCurrently',
+			'inIcuCumulative',
+			'onVentilatorCurrently',
+			'onVentilatorCumulative',
 			]
-
-
-
-
-
-
-
-
-
-
-
 
 
 @permission_required('admin.can_add_log_entry')
@@ -247,7 +196,7 @@ def national_data_upload(request):
 		messages.error(request, "incorrect file type")
 
 	data_set = prik.read().decode('UTF-8')
-	
+
 
 	io_string = io.StringIO(data_set)
 	next(io_string)
