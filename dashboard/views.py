@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy
 from django.core.paginator import Paginator
 from django.views.generic import (ListView, DetailView, UpdateView, DeleteView, CreateView)
 from .models import National, State
@@ -26,14 +27,14 @@ class DashView(MultiTableMixin):
 class NationalTableView(SingleTableView):
 	model = National
 	template_name = "dashboard/national_list.html"
-	table_class = NationalTable
-	# def get_table_class(self):
-	# 	if self.request.user.is_authenticated:
-	# 		print("not here")
-	# 		return NationalTableLI
-	# 	else:
-	# 		print("here")
-	# 		return NationalTable
+
+	def get_table_class(self):
+		if self.request.user.is_authenticated:
+			print("not here")
+			return NationalTableLI
+		else:
+			print("here")
+			return NationalTable
 
 
 class StateTableView(SingleTableView):
@@ -45,16 +46,102 @@ class StateTableView(SingleTableView):
 class NationalDetailView(LoginRequiredMixin, DetailView):
 	login_url = '/login/'
 	redirect_field_name = 'login'
-	table_class = NationalTable
 	model = National
 	template_name = "dashboard/national_detail.html"
 
 class StateDetailView(LoginRequiredMixin, DetailView):
 	login_url = '/login/'
 	redirect_field_name = 'login'
-	table_class = StateTable
 	model = State
 	template_name = "dashboard/state_detail.html"
+
+
+class NationalDeleteView(LoginRequiredMixin, DeleteView):
+	login_url = '/login/'
+	redirect_field_name = 'login'
+	success_url = reverse_lazy('national-List')
+	model = National
+	template_name = "dashboard/national_detail.html"
+
+class StateDeleteView(LoginRequiredMixin, DeleteView):
+	login_url = '/login/'
+	redirect_field_name = 'login'
+	success_url = reverse_lazy('national-List')
+	model = State
+	template_name = "dashboard/state_detail.html"
+
+class NationalCreateView(LoginRequiredMixin, CreateView):
+	login_url = '/login/'
+	redirect_field_name = 'login'
+	model = National
+	template_name = "dashboard/national_create.html"
+	fields = ['date',
+			'death',
+			'deathIncrease',
+			'InIcuCumulative',
+			'InIcuCurrently',
+			'hospitalizedIncrease',
+			'hospitalizedCurrently',
+			'hospitalizedCumulative',
+			'negative',
+			'negativeIncrease',
+			'onVentilatorCumulative',
+			'onVentilatorCurrently',
+			'positive',
+			'positiveIncrease',
+			'states',
+			'totalTestResults',
+			'totalTestResultsIncrease',
+			]	
+
+class StateCreateView(LoginRequiredMixin, CreateView):
+	login_url = '/login/'
+	redirect_field_name = 'login'
+	model = State
+	template_name = "dashboard/national_create.html"
+	fields = ["date",
+			"state",
+			"dataQualityGrade",
+			"death",
+			"deathConfirmed",
+			"deathIncrease",
+			"deathProbable",
+			"hospitalized",
+			"hospitalizedCumulative",
+			"hospitalizedCurrently",
+			"hospitalizedIncrease",
+			"inIcuCumulative",
+			"inIcuCurrently",
+			"negative",
+			"negativeIncrease",
+			"negativeTestsAntibody",
+			"negativeTestsPeopleAntibody",
+			"negativeTestsViral",
+			"onVentilatorCumulative",
+			"onVentilatorCurrently",
+			"positive",
+			"positiveCasesViral", 	
+			"positiveIncrease", 	
+			"positiveScore", 
+			"positiveTestsAntibody", 
+			"positiveTestsAntigen", 	
+			"positiveTestsPeopleAntibody",	
+			"positiveTestsPeopleAntigen", 	
+			"positiveTestsViral", 	
+			"recovered",
+			"totalTestEncountersViral", 	
+			"totalTestEncountersViralIncrease", 	
+			"totalTestResults", 	
+			"totalTestResultsIncrease", 	
+			"totalTestsAntibody", 	
+			"totalTestsAntigen", 
+			"totalTestsPeopleAntibody", 
+			"totalTestsPeopleAntigen", 	
+			"totalTestsPeopleViral", 	
+			"totalTestsPeopleViralIncrease", 	
+			"totalTestsViral", 	
+			"totalTestsViralIncrease"
+			]
 
 
 class NationalUpdateView(LoginRequiredMixin, UpdateView):

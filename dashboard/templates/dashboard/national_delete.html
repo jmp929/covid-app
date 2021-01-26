@@ -1,0 +1,8 @@
+
+<h3>Delete Page</h3>
+
+<form method="post">
+	{% csrf_token %}
+	<p> Delete data for the day "{{ object.date }}"?</p>
+	<input type="submit" value="Confirm">
+</form>
