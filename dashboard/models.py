@@ -4,22 +4,27 @@ import django_tables2 as tables
 
 class National(models.Model):
 			date = models.DateField(unique=True, max_length=11)
-			death = models.IntegerField(default=0, max_length=11)
-			InIcuCumulative = models.IntegerField(default=0, max_length=11)
-			InIcuCurrently = models.IntegerField(default=0, max_length=11)
-			hospitalizedCurrently = models.IntegerField(default=0, max_length=11)
-			hospitalizedCumulative = models.IntegerField(default=0, max_length=11)
-			negative = models.IntegerField(default=0, max_length=11)
-			onVentilatorCumulative = models.IntegerField(default=0, max_length=11)
-			onVentilatorCurrently = models.IntegerField(default=0, max_length=11)
-			positive = models.IntegerField(default=0, max_length=11)
+			death = models.IntegerField(default=0)
+			inIcuCumulative = models.IntegerField(default=0)
+			inIcuCurrently = models.IntegerField(default=0)
+			hospitalizedCurrently = models.IntegerField(default=0)
+			hospitalizedCumulative = models.IntegerField(default=0)
+			negative = models.IntegerField(default=0)
+			onVentilatorCumulative = models.IntegerField(default=0)
+			onVentilatorCurrently = models.IntegerField(default=0)
+			positive = models.IntegerField(default=0)
+
+			@classmethod
+			def get_expected_names(clas):
+				return ['date', 'death', 'InIcuCumulative','InIcuCurrently', 'hospitalizedCurrently', 'hospitalizedCumulative', 'negative', 'onVentilatorCumulative',
+						'onVentilatorCurrently', 'positive']
 
 
 			def get_absolute_url(self):
 				return reverse("national-detail", kwargs={"id": self.id})
 
 			def __str__(self):
-				return "date: " + str(self.date) + "and number of deaths: " + str(self.id)
+				return "date: " + str(self.date) + "and number in icu: " + str(self.inIcuCumulative)
 
 # class NationalTable(tables.Table):
 # 	class Meta:
@@ -30,7 +35,7 @@ class National(models.Model):
 
 class State(models.Model):
 			date = models.DateField()
-			state = models.TextField()
+			state = models.CharField(max_length=2)
 			death = models.IntegerField(default=0)
 			hospitalizedCumulative = models.IntegerField(default=0)
 			hospitalizedCurrently = models.IntegerField(default=0)
@@ -43,6 +48,13 @@ class State(models.Model):
 
 			class Meta:
 				unique_together = ['state', 'date']
+
+
+
+			@classmethod
+			def get_expected_names(clas):
+				return ['date', 'state', 'death', 'hospitalizedCumulative','hospitalizedCurrently', 'inIcuCumulative', 'inIcuCurrently', 'negative', 'onVentilatorCumulative',
+						'onVentilatorCurrently', 'positive']
 
 
 

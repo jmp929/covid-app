@@ -8,15 +8,14 @@ class NationalTable(tables.Table):
 	class Meta:
 		model = National
 		template_name = "django_tables2/bootstrap4.html"
-		attrs = {'class': 'national_table', 'div': 'hdr'}
 		fields = ['date',
 			'death',
 			'positive',
 			'negative',
 			'hospitalizedCurrently',
 			'hospitalizedCumulative',
-			'InIcuCurrently',
-			'InIcuCumulative',
+			'inIcuCurrently',
+			'inIcuCumulative',
 			'onVentilatorCurrently',
 			'onVentilatorCumulative',
 			]
@@ -26,8 +25,8 @@ class NationalTable(tables.Table):
 			'negative',
 			'hospitalizedCurrently',
 			'hospitalizedCumulative',
-			'InIcuCurrently',
-			'InIcuCumulative',
+			'inIcuCurrently',
+			'inIcuCumulative',
 			'onVentilatorCurrently',
 			'onVentilatorCumulative',
 			)
@@ -38,7 +37,6 @@ class StateTable(tables.Table):
 	class Meta:
 		model = State
 		template_name = "django_tables2/bootstrap4.html"
-		attrs = {'class': 'state_table', 'div': 'body'}
 		fields = ['date',
 			'state',
 			'death',
@@ -79,8 +77,8 @@ class NationalTableLI(tables.Table):
 			'negative',
 			'hospitalizedCurrently',
 			'hospitalizedCumulative',
-			'InIcuCurrently',
-			'InIcuCumulative',
+			'inIcuCurrently',
+			'inIcuCumulative',
 			'onVentilatorCurrently',
 			'onVentilatorCumulative',
 			]
@@ -90,8 +88,8 @@ class NationalTableLI(tables.Table):
 			'negative',
 			'hospitalizedCurrently',
 			'hospitalizedCumulative',
-			'InIcuCurrently',
-			'InIcuCumulative',
+			'inIcuCurrently',
+			'inIcuCumulative',
 			'onVentilatorCurrently',
 			'onVentilatorCumulative',
 			)

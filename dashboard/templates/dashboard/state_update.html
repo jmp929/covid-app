@@ -5,8 +5,8 @@
 <style>
 .header{
 	color: white;
-	text-align: 50%;
-	background: blue;
+	text-align: left;
+	background: #1E90FF;
 }
 </style>
 
@@ -21,4 +21,5 @@
 	{% csrf_token %}
 	{{ form|crispy}}
 	<button type="submit" class="btn btn-success">Submit</button>
+	<a href="/State/{{object.id}}/" class="card-link">cancel</a>
 </form>

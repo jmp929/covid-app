@@ -1,15 +1,16 @@
+{% include 'dashboard/navbar.html' %}
 {% include 'dashboard/bootstrap4.html' %}
 {% if messages %}
 	{% for message in messages %}
 		<div>
-			<strong>{{message|safe}}</strong>
+			<strong>{{message}}</strong>
 		</div>
 	{% endfor %}
 {% else %}
 {{order}}
 <form method="post" enctype="multipart/form-data">
 	{% csrf_token %}
-	<label>Upload the file</label>
+	<label>Upload the file here</label>
 	<input type="file" name="file">
 	<p>Only accepts CSV files</p>
 	<button type="submit">Upload</button>
