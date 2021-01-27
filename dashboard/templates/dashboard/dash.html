@@ -1,79 +1,30 @@
 {% include 'dashboard/bootstrap4.html' %}
 {% include 'dashboard/navbar.html' %}
 
-<style>
-    #upload {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-    }
-</style>
-
+>
 <head>
 
 <div class="jumbotron">
   <h1 class="display-4">US Covid Dashboard</h1>
   <p class="lead">This is my project for IBM. Working on this for the past week has been extremely educational and fulfilling, and I look foward
-  to continuing this project. Due to the time constraints and other work, there are a number of things I was not able to implement in time, but am excited to continue to work to implement them.  </p>
+  to continuing this project. Due to the time constraints and other work, there are a number of things I was not able to implement in time, but am excited to continue to work to implement them.  Some of those things are render multiple graphs on the home page, continue to implement the rest framework, implemnt a search bar for the tables, and allow grouping of the table data.  </p>
   <hr class="my-4">
-  <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+  <p>Use the button below to learn more about this websites developer</p>
   <p class="lead">
     <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
   </p>
 </div>
 </head>
+
 <body>
-<div class="row">
-  <div class="col-sm-6">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-6">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-      </div>
-    </div>
-  </div>
-</div>
-&nbsp;
-<div class="row">
-  <div class="col-sm-6">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-6">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-      </div>
-    </div>
-  </div>
-</div>
+{% include 'dashboard/state_death_chart.html' %}
+
+<!-- TODO: Get additional graphs to render properly -->
+</body>
 
 
-
-
-
-
-
-
-    {% if request.user.is_staff %}
-    <div id="upload"class="card" style="width: 25rem; height: 8rem, background: blue">
+{% if request.user.is_staff %}
+    <div id="upload"class="card" style="width: 25rem; height: 8rem, ">
         <div class="card-body">
             <h6 class="card-title">STAFF ONLY:</h6>
             <p class="card-text">Found a better CSV file, upload here</p>
@@ -82,7 +33,3 @@
         </div>
     </div>
     {% endif %}
-
- </body>  
-    
-

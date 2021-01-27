@@ -1,0 +1,48 @@
+{% include 'dashboard/bootstrap4.html' %}
+
+
+<script>
+
+{% block jquery%}
+var endpoint='/api/nationalchart/data'
+var defualtData=[]
+var labels=[]
+
+$.ajax({
+  method: "GET",
+  url: endpoint,
+  success: function(data) {
+    console.log(data)
+    defaultData = data.dataView
+    labels = data.labelsView
+    var ctx= document.getElementById('myChart')
+    var myChart = new Chart(ctx, {
+      type:'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: data.chartLabel,
+          data: defaultData 
+
+        }]
+      }
+
+    })
+  },
+  error: function(error_data) {
+    console.log
+    console.log(error_da)
+  }
+})
+
+{% endblock %}
+</script>
+
+ 
+
+
+
+<canvas id="myChart" width="400" height="400"></canvas>
+<script>
+var ctx = document.getElementById('myChart');
+</script>

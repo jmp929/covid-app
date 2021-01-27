@@ -20,11 +20,8 @@ class National(models.Model):
 						'onVentilatorCurrently', 'positive']
 
 
-			def get_absolute_url(self):
-				return reverse("national-detail", kwargs={"id": self.id})
+			
 
-			def __str__(self):
-				return "date: " + str(self.date) + "and number in icu: " + str(self.inIcuCumulative)
 
 # class NationalTable(tables.Table):
 # 	class Meta:

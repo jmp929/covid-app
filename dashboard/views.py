@@ -1,12 +1,10 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.core.paginator import Paginator
 from django.views.generic import (ListView, DetailView, UpdateView, DeleteView, CreateView)
-from django.views.generic.base import TemplateView
 from .models import National, State
 from .tables import NationalTable, StateTable, NationalTableLI, StateTableLI
 from datetime import datetime
-from django.contrib.auth.decorators import permission_required, login_required
+from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 import csv,  io
 from django_filters.views import FilterView
@@ -15,7 +13,16 @@ from django_tables2.views import MultiTableMixin
 from django.contrib import messages
 from .filters import NationalFilter
 from django.contrib.admin.views.decorators import staff_member_required
-from django.http import HttpResponse
+from rest_framework.views import APIView 
+from rest_framework.response import Response 
+from django.db.models import Sum
+
+
+
+class DonationsView(SingleTableView):
+	template_name = 'dashboard/donations.html'
+	model = National
+	table_class = NationalTable
 
 
 class DashboardView(SingleTableView):
@@ -164,7 +171,7 @@ class NationalUpdateView(LoginRequiredMixin, UpdateView):
 			'onVentilatorCumulative',
 			]
 
-#@login_required
+
 class StateUpdateView(LoginRequiredMixin, UpdateView):
 	model = State
 	template_name = "dashboard/state_update.html"
@@ -312,3 +319,77 @@ def state_data_upload(request):
 
 	context = {}
 	return render(request, "dashboard/state_data_upload.html", context)
+
+
+
+
+
+class StateChartData(APIView): 
+	authentication_classes = [] 
+	permission_classes = [] 
+   
+	def get(self, request, format = None): 
+		labelsView = []
+		dataView = []
+
+		queryset = State.objects.values('state').annotate(total_deaths=Sum('death')).order_by('-total_deaths')
+		for entry in queryset:
+			labelsView.append(entry['state'])
+			dataView.append(entry['total_deaths'])
+
+		chartLabel = "Chart of Deaths by State"
+		data = {
+			'labelsView': labelsView,
+			'dataView': dataView,
+			'chartLabel': chartLabel,
+		}
+		return Response(data)
+
+
+
+
+
+class NationalChartData(APIView): 
+	authentication_classes = [] 
+	permission_classes = [] 
+   
+	def get(self, request, format = None): 
+		labelsView = []
+		dataView = []
+
+		queryset = National.objects.values('date').annotate(num_deaths=Sum('death')).order_by('-num_deaths')[:50]
+		for entry in queryset:
+			labelsView.append(entry['date'])
+			dataView.append(entry['num_deaths'])
+
+		chartLabel = "Chart of Deaths Nationally by Day"
+		data = {
+			'labelsView': labelsView,
+			'dataView': dataView,
+			'chartLabel': chartLabel,
+		}
+		return Response(data)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
