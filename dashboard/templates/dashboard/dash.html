@@ -1,7 +1,23 @@
 {% include 'dashboard/bootstrap4.html' %}
 {% include 'dashboard/navbar.html' %}
 
->
+<style>
+  .flex-container {
+    display: flex;
+}
+
+.flex-child {
+    flex: 1;
+    border: 2px solid blue;
+}  
+
+.flex-child:first-child {
+    margin-right: 20px;
+} 
+</style>
+
+
+
 <head>
 
 <div class="jumbotron">
@@ -16,10 +32,10 @@
 </div>
 </head>
 
+ 
 <body>
-{% include 'dashboard/state_death_chart.html' %}
-
-<!-- TODO: Get additional graphs to render properly -->
+  {% include 'dashboard/state_death_chart.html' %}
+ <!-- TODO: Get additional graphs to render properly -->
 </body>
 
 
