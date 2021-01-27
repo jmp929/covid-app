@@ -42,6 +42,7 @@ class NationalTableView(SingleTableView, FilterView):
 	template_name = "dashboard/national_list.html"
 
 	filter_class = NationalFilter
+	#only give users the option to see the details of the data, and thus update or delete
 	def get_table_class(self):
 		if self.request.user.is_authenticated:
 			print("not here")
@@ -56,6 +57,7 @@ class StateTableView(SingleTableView):
 
 	model = State
 	template_name = "dashboard/state_list.html"
+	#only give users the option to see the details of the data, and thus update or delete
 	def get_table_class(self):
 		if self.request.user.is_authenticated:
 			print("not here")
@@ -188,7 +190,7 @@ class StateUpdateView(LoginRequiredMixin, UpdateView):
 			'onVentilatorCumulative',
 			]
 
-
+#Give only admin users the ability to upload a new CSV
 @permission_required('admin.can_add_log_entry')
 def national_data_upload(request):
 
@@ -203,6 +205,7 @@ def national_data_upload(request):
 
 	tmp_file = request.FILES['file']
 
+	#verify the file is CSV format
 	if no_errors:
 		if not tmp_file.name.endswith('.csv'):
 			no_errors = False
@@ -220,11 +223,13 @@ def national_data_upload(request):
 
 
 	expected_names = National.get_expected_names()
+	#verifying CSV file is correct length
 	if no_errors:
 		if (len(expected_names) != len(new_names)):
 			no_errors = False
 			messages.error(request, "incorrect CSV size")
 
+	#verifying CSV file matches proper table headings
 	if no_errors:
 		for x in range(len(expected_names)):
 			if (expected_names[x] != new_names[x]):
@@ -256,7 +261,7 @@ def national_data_upload(request):
 	context = {}
 	return render(request, "dashboard/national_data_upload.html", context)
 
-
+#Give only admin users the ability to upload a new CSV
 @permission_required('admin.can_add_log_entry')
 def state_data_upload(request):
 
@@ -269,7 +274,7 @@ def state_data_upload(request):
 
 
 	tmp_file = request.FILES['file']
-
+	#verify the file is CSV format
 	if not tmp_file.name.endswith('.csv'):
 		messages.error(request, "not right")
 
@@ -285,11 +290,13 @@ def state_data_upload(request):
 
 
 	expected_names = National.get_expected_names()
+	#verifying CSV file is correct length
 	if no_errors:
 		if (len(expected_names) != len(new_names)):
 			no_errors = False
 			messages.error(request, "incorrect CSV size")
 
+	#verifying CSV file matches proper table headings
 	if no_errors:
 		for x in range(len(expected_names)):
 			if (expected_names[x] != new_names[x]):
@@ -323,7 +330,7 @@ def state_data_upload(request):
 
 
 
-
+#Render data for chart of deaths per state
 class StateChartData(APIView): 
 	authentication_classes = [] 
 	permission_classes = [] 
@@ -348,7 +355,7 @@ class StateChartData(APIView):
 
 
 
-
+#Render data for top 50 most deadly days in the US nationally
 class NationalChartData(APIView): 
 	authentication_classes = [] 
 	permission_classes = [] 

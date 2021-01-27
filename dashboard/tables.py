@@ -4,6 +4,7 @@ from .models import National, State
 from django_tables2.utils import A
 
 
+#Table for non users, no edit field given
 class NationalTable(tables.Table):
 	class Meta:
 		model = National
@@ -32,7 +33,7 @@ class NationalTable(tables.Table):
 			)
 
 
-
+#Table for non users, no edit field given
 class StateTable(tables.Table):
 	class Meta:
 		model = State
@@ -62,7 +63,7 @@ class StateTable(tables.Table):
 			'onVentilatorCumulative',
 			)
 
-
+#Table for users only which displays the option to 'edit', meaning update or delete data
 class NationalTableLI(tables.Table):
 	
 	edit = tables.columns.LinkColumn('dashboard:national-detail', text="edit", args=[A('pk')], orderable=False)
@@ -97,7 +98,7 @@ class NationalTableLI(tables.Table):
 
 
 
-
+#Table for users only which displays the option to 'edit', meaning update or delete data
 class StateTableLI(tables.Table):
 
 	edit = tables.columns.LinkColumn('dashboard:state-detail', text="edit", args=[A('pk')], orderable=False)
