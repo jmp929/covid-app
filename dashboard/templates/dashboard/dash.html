@@ -1,29 +1,87 @@
-{% load bootstrap4 %}
+{% include 'dashboard/bootstrap4.html' %}
+{% include 'dashboard/navbar.html' %}
 
-
-
-{% load render_table from django_tables2 %}
-
-<html>
 <style>
-	h1	{color: blue; text-align: center;}
-	
+    #upload {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
 </style>
 
-{% include 'dashboard/navbar.html' %}
-	
-    <head>
-        <title>US State Covid history</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-        <h1>US State Covid Data</h1>
-    </head>
-    <body>
-       
-       {% for table in tables %}
-            {% render_table table %}
-        {% endfor %}
-    	
-    </body>
-</html>
+<head>
 
+<div class="jumbotron">
+  <h1 class="display-4">US Covid Dashboard</h1>
+  <p class="lead">This is my project for IBM.  This process has been very educational</p>
+  <hr class="my-4">
+  <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+  <p class="lead">
+    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+  </p>
+</div>
+</head>
+<body>
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Special title treatment</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Special title treatment</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+    </div>
+  </div>
+</div>
+&nbsp;
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Special title treatment</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Special title treatment</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+    {% if request.user.is_staff %}
+    <div id="upload"class="card" style="width: 25rem; height: 8rem, background: blue">
+        <div class="card-body">
+            <h6 class="card-title">STAFF ONLY:</h6>
+            <p class="card-text">Found a better CSV file, upload here</p>
+            <a href="/upload-state-csv/" class="card-link">State Table</a>
+            <a href="/upload-nation-csv/" class="card-link">Nation Table</a>
+        </div>
+    </div>
+    {% endif %}
+
+ </body>  
+    
 

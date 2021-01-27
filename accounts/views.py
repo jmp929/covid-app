@@ -7,7 +7,7 @@ def NewAccount(response):
 		accountForm = NewAccountForm(response.POST)
 		if accountForm.is_valid():
 			accountForm.save()
-			return redirect("/dashboard/National")
+			return redirect("/")
 	else:
 		accountForm = NewAccountForm()
 

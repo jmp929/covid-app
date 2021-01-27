@@ -1,19 +1,88 @@
-{% load bootstrap4 %}
+{% include 'dashboard/bootstrap4.html' %}
+{% load static %}
+
+<head>
 
 <style>
-	a {
-		color:red;
-	}
+	
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 20px;
+  text-decoration: none;
+}
+
+li a:hover {
+	background-color: powderblue;
+}
+
+li a:link {text-decoration: None}
+
+ul {
+  
+  
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: blue;
+}
+
+
+
+ul a:active { background-color: green!important;}
 
 
 </style>
+</head>
+
+<body>
+	<ul>
+		
+		<li><a href="/">Home Page</a></li>
+		<li><a href="/National">National Datatable</a></li>
+		<li><a href="/State">State Datatable</a></li>
+		<!-- <li style="float:right";> <img style='height:5%; width: 5%; object-fit: contain; position: absolute; right: 50%' src="{% static 'dashboard/images/IBM-logo.png'%}" ></li> -->
+		<l1 style="float:right;">
+			<a href="https://www.ibm.com/impact/covid-19"><img src = "{% static 'dashboard/images/IBM-logo.png'%}" width="60" height="52"/></a></l1>
+		{% if request.user.is_authenticated %}
+		<li style="float:right;"><a href="/logout">Logout</a></li>
+		<li style="float:right;"><a href="{% url 'dashboard:national-create' %}">Add New National Entry</a></li>
+		<li style="float:right;"><a href="{% url 'dashboard:state-create' %}">Add New State Entry</a></li>
+		{% else %}
+		<li style="float:right"><a href="/login">Login</a></li>
+		{% endif %}
+		
+	</ul>
+
+</body>
 
 
-<nav class="navbar navbar_default">
+
+
+
+
+
+
+
+
+<!-- nav class="navbar navbar_default">
 	<div class="container-fluid">
 
-		<div class="navbar-header">
+	<div class="navbar-header">
+
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target='navbar'> </button> 
+
 			<a class="dashboard" href="/">Home Page</a>
+
 		</div>
+
+
+		<div class="collapse navbar-collapse"></div>
+
 	</div>
-</nav>
+</nav> -->

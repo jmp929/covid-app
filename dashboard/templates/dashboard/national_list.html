@@ -1,33 +1,17 @@
 {% include 'dashboard/bootstrap4.html' %}
 {% load render_table from django_tables2 %}
+{% include 'dashboard/navbar.html' %}
 
 <html>
 
 <style>
-	.header {color: white;
-			text-align: center;
-			background: blue;}
-	.topright {
-		position:absolute;
-		top: 8px;
-		left:16px;
-		font-size: 18px;
-		color: red;
-	}
-	
 	body {background-color: white}
+	h1	{color: blue; text-align: center;}
 </style>
 	
-	<div class="topright">
-		<a href="/">Back to Home Page</a>
-	</div>
-
     <head>
         <title>US National Covid history</title>
-        
-        <div class="header">
-        	<h1>US National Covid Data</h1>
-        </div>
+        <h1> US National Covid Data</h1>
     </head>
     <body>
         {% render_table table %}

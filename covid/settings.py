@@ -126,8 +126,8 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
+
+
 
 STATIC_URL = '/static/'
 
@@ -135,8 +135,8 @@ STATIC_URL = '/static/'
 
 CRISPY_TEMPLATE_PACK="bootstrap4"
 
-LOGIN_REDIRECT_URL = "/dashboard/National"
-LOGOUT_REDIRECT_URL = "/dashboard/National"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
 
 
 

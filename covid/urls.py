@@ -22,5 +22,4 @@ urlpatterns = [
     path('', include('dashboard.urls')),
     path("accounts/", views.NewAccount, name="new-account"),
     path('', include("django.contrib.auth.urls")),
-
     ]

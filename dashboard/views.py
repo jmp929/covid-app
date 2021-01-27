@@ -14,18 +14,20 @@ from django_tables2 import SingleTableView
 from django_tables2.views import MultiTableMixin
 from django.contrib import messages
 from .filters import NationalFilter
+from django.contrib.admin.views.decorators import staff_member_required
 
 
-class DashboardView(MultiTableMixin, TemplateView):
+class DashboardView(SingleTableView):
 	template_name = 'dashboard/dash.html'
+	model = National
+	table_class = NationalTable
 
-	query1 = National.objects.all()
-	query2 = State.objects.all()
 
-	tables = [
-		NationalTable(query1),
-		StateTable(query2)
-	]
+class DashboardExtView(SingleTableView):
+	template_name = 'dashboard/dash_ext.html'
+	model = State
+	table_class = NationalTable
+
 
 class NationalTableView(SingleTableView, FilterView):
 	model = National
@@ -185,17 +187,16 @@ def national_data_upload(request):
 	context = {
 		'data': 'upload the data here'
 	}
-
 	if request.method == "GET":
 		return render(request, "dashboard/national_data_upload.html", context)
 
 
-	prik = request.FILES['file']
+	tmp_file = request.FILES['file']
 
-	if not prik.name.endswith('.csv'):
+	if not tmp_file.name.endswith('.csv'):
 		messages.error(request, "incorrect file type")
 
-	data_set = prik.read().decode('UTF-8')
+	data_set = tmp_file.read().decode('UTF-8')
 
 
 	io_string = io.StringIO(data_set)
@@ -236,12 +237,12 @@ def state_data_upload(request):
 		return render(request, "dashboard/national_data_upload.html", context)
 
 
-	prik = request.FILES['file']
+	tmp_file = request.FILES['file']
 
-	if not prik.name.endswith('.csv'):
+	if not tmp_file.name.endswith('.csv'):
 		messages.error(request, "not right")
 
-	data_set = prik.read().decode('UTF-8')
+	data_set = tmp_file.read().decode('UTF-8')
 	
 
 	io_string = io.StringIO(data_set)
@@ -295,105 +296,3 @@ def state_data_upload(request):
 
 	context = {}
 	return render(request, "dashboard/state_data_upload.html", context)
-
-
-
-
-
-
-# class NationalListView(ListView):
-# 	model = National
-# 	template_name = "national_list.html"
-# 	context_name = "national_list"
-# 	paginate_by = 100
-
-
-# class StateListView(ListView):
-# 	model = State
-# 	template_name = "state_list.html"
-# 	context_name = "state_list"
-# 	paginate_by = 100
-
-# 	def query_set(self):
-# 		queryset = State.objects
-
-
-
-
-# from django.views import generic
-# from django.core import Paginator
-# from django.shortcuts import get_object_or_404, render, redirect
-# from .models import National, State
-
-
-
-# def NationalListView(request):
-# 	nationalQuery = National.objects.all()
-# 	pag = Paginator(nationalQuery, 25)
-
-# 	page = request.GET.get('page')
-
-
-# 	return render(request, "dashboard/national_list_view.html", {"nationalQuery": nationalQuery})
-
-# def NationalDetailView(request, pk):
-# 	nationalQuery = get_object_or_404(National, pk=pk)
-
-# 	return render(request, "dashboard/national_detail_view.html", {"national_day": nationalQuery})
-
-# def stateListView(request):
-# 	stateQuery = State.objects.all()
-
-# 	return render(request, "dashboard/state_list_view.html", {"stateQuery": stateQuery})
-
-# def stateDetailView(request, pk):
-# 	stateQuery = get_object_or_404(State, pk=pk)
-
-# 	return render(request, "dashboard/state_detail_view.html", {"state_day": stateQuery})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-'''
-views is what sends back the http response to the client when they look up the url
-and when they use the page. The view handles the requests from the client
-
-request - wants http response
-'''
-
-# def index(request):
-# 	all_national = National.objects.all()
-# 	context = {
-# 		'all_national': all_national,
-# 	}
-# 	return render(request, "dashboard/index.html", context)
-
-# def detail(request, national_id):
-
-# 	national = get_object_or_404(National, id=national_id)
-	
-# 	return render(request, "dashboard/detail.html", {"national": national})
