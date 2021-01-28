@@ -3,8 +3,9 @@ from django.urls import reverse
 import django_tables2 as tables
 
 class National(models.Model):
-			date = models.DateField(unique=True, max_length=11)
+			date = models.DateField(max_length=11)
 			death = models.IntegerField(default=0)
+			deathIncrease = models.IntegerField(default=0)
 			inIcuCumulative = models.IntegerField(default=0)
 			inIcuCurrently = models.IntegerField(default=0)
 			hospitalizedCurrently = models.IntegerField(default=0)
@@ -16,8 +17,14 @@ class National(models.Model):
 
 			@classmethod
 			def get_expected_names(clas):
-				return ['date', 'death', 'InIcuCumulative','InIcuCurrently', 'hospitalizedCurrently', 'hospitalizedCumulative', 'negative', 'onVentilatorCumulative',
+				return ['date', 'death', 'deathIncrease', 'inIcuCumulative','inIcuCurrently', 'hospitalizedCurrently', 'hospitalizedCumulative', 'negative', 'onVentilatorCumulative',
 						'onVentilatorCurrently', 'positive']
+
+			def get_date(self):
+				return self.date
+
+			def get_death(self):
+				return self.deathIncrease
 
 
 			
@@ -43,8 +50,8 @@ class State(models.Model):
 			onVentilatorCurrently = models.IntegerField(default=0)
 			positive = models.IntegerField(default=0)
 
-			class Meta:
-				unique_together = ['state', 'date']
+			# class Meta:
+			# 	unique_together = ['state', 'date']
 
 
 

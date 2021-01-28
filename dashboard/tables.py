@@ -11,6 +11,7 @@ class NationalTable(tables.Table):
 		template_name = "django_tables2/bootstrap4.html"
 		fields = ['date',
 			'death',
+			'deathIncrease',
 			'positive',
 			'negative',
 			'hospitalizedCurrently',
@@ -22,6 +23,7 @@ class NationalTable(tables.Table):
 			]
 		sequence = ('date',
 			'death',
+			'deathIncrease',
 			'positive',
 			'negative',
 			'hospitalizedCurrently',
@@ -74,6 +76,7 @@ class NationalTableLI(tables.Table):
 		template_name = "django_tables2/bootstrap4.html"
 		fields = ['date',
 			'death',
+			'deathIncrease',
 			'positive',
 			'negative',
 			'hospitalizedCurrently',
@@ -85,6 +88,7 @@ class NationalTableLI(tables.Table):
 			]
 		sequence = ('date',
 			'death',
+			'deathIncrease',
 			'positive',
 			'negative',
 			'hospitalizedCurrently',

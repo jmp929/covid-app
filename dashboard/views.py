@@ -15,7 +15,7 @@ from .filters import NationalFilter
 from django.contrib.admin.views.decorators import staff_member_required
 from rest_framework.views import APIView 
 from rest_framework.response import Response 
-from django.db.models import Sum
+from django.db.models import Sum, Max
 
 
 
@@ -72,6 +72,7 @@ class NationalDetailView(LoginRequiredMixin, DetailView):
 	model = National
 	fields = ['date',
 			'death',
+			'deathIncrease',
 			'positive',
 			'negative',
 			'hospitalizedCurrently',
@@ -124,6 +125,7 @@ class NationalCreateView(LoginRequiredMixin, CreateView):
 	template_name = "dashboard/national_create.html"
 	fields = ['date',
 			'death',
+			'deathIncrease',
 			'positive',
 			'negative',
 			'hospitalizedCurrently',
@@ -163,6 +165,7 @@ class NationalUpdateView(LoginRequiredMixin, UpdateView):
 
 	fields = ['date',
 			'death',
+			'deathIncrease',
 			'positive',
 			'negative',
 			'hospitalizedCurrently',
@@ -248,15 +251,16 @@ def national_data_upload(request):
 		for col in csv.reader(io_string, delimiter=',', quotechar="|"):
 			_, temp = National.objects.update_or_create(
 				date = datetime.strptime(col[0], "%Y-%m-%d"),
-				death = col[1],
-				inIcuCumulative = col[2],
-				inIcuCurrently = col[3],
-				hospitalizedCurrently = col[4],
-				hospitalizedCumulative = col[5],
-				negative = col[6],
-				onVentilatorCumulative = col[7],
-				onVentilatorCurrently = col[8],
-				positive = col[9],
+				death = int(float(col[1])),
+				deathIncrease = int(float(col[2])),
+				inIcuCumulative = int(float(col[3])),
+				inIcuCurrently = int(float(col[4])),
+				hospitalizedCurrently = int(float(col[5])),
+				hospitalizedCumulative = int(float(col[6])),
+				negative = int(float(col[7])),
+				onVentilatorCumulative = int(float(col[8])),
+				onVentilatorCurrently = int(float(col[9])),
+				positive = int(float(col[10])),
 				)
 	context = {}
 	return render(request, "dashboard/national_data_upload.html", context)
@@ -339,10 +343,11 @@ class StateChartData(APIView):
 		labelsView = []
 		dataView = []
 
-		queryset = State.objects.values('state').annotate(total_deaths=Sum('death')).order_by('-total_deaths')
+		queryset = State.objects.values('state').annotate(max_deaths=Max('death')).order_by('-max_deaths')
 		for entry in queryset:
+			print(entry)
 			labelsView.append(entry['state'])
-			dataView.append(entry['total_deaths'])
+			dataView.append(entry['max_deaths'])
 
 		chartLabel = "Chart of Deaths by State"
 		data = {
@@ -351,11 +356,11 @@ class StateChartData(APIView):
 			'chartLabel': chartLabel,
 		}
 		return Response(data)
+  
 
 
 
-
-#Render data for top 50 most deadly days in the US nationally
+#Render data for top 50 most deadly days in the US 
 class NationalChartData(APIView): 
 	authentication_classes = [] 
 	permission_classes = [] 
@@ -363,11 +368,14 @@ class NationalChartData(APIView):
 	def get(self, request, format = None): 
 		labelsView = []
 		dataView = []
+		queryset = National.objects.all().order_by('-deathIncrease')[:50]
 
-		queryset = National.objects.values('date').annotate(num_deaths=Sum('death')).order_by('-num_deaths')[:50]
 		for entry in queryset:
-			labelsView.append(entry['date'])
-			dataView.append(entry['num_deaths'])
+			print(entry)
+			labelsView.append(entry.__dict__['date'])
+			dataView.append(entry.__dict__['deathIncrease'])
+		
+			
 
 		chartLabel = "Chart of Deaths Nationally by Day"
 		data = {
