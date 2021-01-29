@@ -24,7 +24,7 @@ urlpatterns = [
 	path('State/<int:pk>/delete/', views.StateDeleteView.as_view(), name='state-delete'),
 	path('api/statechart/data', views.StateChartData.as_view(), name='api-statechart-data'),
 	path('api/nationalchart/data', views.NationalChartData.as_view(), name='api-nationalchart-data'),
-	path('donations/', views.DonationsView.as_view(), name='donations'),
+	path('donations/', views.DonationsView, name='donations'),
 
 
 ]

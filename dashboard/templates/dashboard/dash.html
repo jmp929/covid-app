@@ -34,7 +34,100 @@
 
  
 <body>
-  {% include 'dashboard/state_death_chart.html' %}
+  <script>
+{% block jquery%}
+function get_random_color() {
+    var h = rand(1, 360);
+    var s = rand(50, 80);
+    var l = rand(50, 90);
+
+    return 'rgb(' + h + ',' + s + ',' + l + ')';
+  }
+var endpoint='/api/statechart/data'
+var tableData=[]
+var chartlabel=[]
+$.ajax({
+  method: "GET",
+  url: endpoint,
+  success: function(data) {
+    console.log(data)
+    tableData = data.dataView
+    chartlabels = data.labelsView
+    var ctx= document.getElementById('myChart')
+    var myChart = new Chart(ctx, {
+      type:'bar',
+      data: {
+        labels: chartlabels,
+        datasets: [{
+          label: data.chartLabel,
+          data: tableData,
+          backgroundColor: 'blue',
+          
+          
+
+
+          
+        
+
+        }]
+      }
+
+    })
+  },
+  error: function(error_data) {
+    console.log("error")
+    console.log(error_data)
+  }
+  
+})
+var endpoint='/api/nationalchart/data'
+var tableData=[]
+var chartlabel=[]
+$.ajax({
+  method: "GET",
+  url: endpoint,
+  success: function(data) {
+    console.log(data)
+    tableData = data.dataView
+    chartlabels = data.labelsView
+    var ctx= document.getElementById('myChart2')
+    var myChart = new Chart(ctx, {
+      type:'bar',
+      data: {
+        labels: chartlabels,
+        datasets: [{
+          label: data.chartLabel,
+          data: tableData,
+          backgroundColor: 'blue',
+        
+
+        }]
+      }
+
+    })
+  },
+  error: function(error_data) {
+    console.log("error")
+    console.log(error_data)
+  }
+  
+})
+
+
+{% endblock %}
+</script>
+
+ 
+<div class='row'>
+  <div class='col-sm-6'>
+    <canvas id="myChart" width="400" height="400"></canvas>
+  </div>
+  <div class='col-sm-6'>
+    <canvas id="myChart2" width="400" height="400"></canvas>
+  </div>
+</div>
+
+
  <!-- TODO: Get additional graphs to render properly -->
 </body>
 

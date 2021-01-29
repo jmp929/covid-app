@@ -18,22 +18,13 @@ from rest_framework.response import Response
 from django.db.models import Sum, Max
 
 
-
-class DonationsView(SingleTableView):
-	template_name = 'dashboard/donations.html'
-	model = National
-	table_class = NationalTable
+def DonationsView(request):
+	return render(request, 'dashboard/donations.html', {})
 
 
 class DashboardView(SingleTableView):
 	template_name = 'dashboard/dash.html'
 	model = National
-	table_class = NationalTable
-
-
-class DashboardExtView(SingleTableView):
-	template_name = 'dashboard/dash_ext.html'
-	model = State
 	table_class = NationalTable
 
 
@@ -73,14 +64,20 @@ class NationalDetailView(LoginRequiredMixin, DetailView):
 	fields = ['date',
 			'death',
 			'deathIncrease',
-			'positive',
-			'negative',
+			'InIcuCumulative',
+			'InIcuCurrently',
+			'hospitalizedIncrease',
 			'hospitalizedCurrently',
 			'hospitalizedCumulative',
-			'inIcuCurrently',
-			'inIcuCumulative',
-			'onVentilatorCurrently',
+			'negative',
+			'negativeIncrease',
 			'onVentilatorCumulative',
+			'onVentilatorCurrently',
+			'positive',
+			'positiveIncrease',
+			'states',
+			'totalTestResults',
+			'totalTestResultIncrease',
 			]
 	template_name = "dashboard/national_detail.html"
 
@@ -89,16 +86,47 @@ class StateDetailView(LoginRequiredMixin, DetailView):
 	redirect_field_name = 'login'
 	model = State
 	fields = ['date',
-			'state',
-			'death',
-			'positive',
-			'negative',
-			'hospitalizedCurrently',
-			'hospitalizedCumulative',
-			'inIcuCurrently',
-			'inIcuCumulative',
-			'onVentilatorCurrently',
-			'onVentilatorCumulative',
+				'state',
+				'dataQualityGrade',
+				'death',
+				'deathConfirmed',
+				'deathIncrease',
+				'deathProbable',
+				'hospitalized',
+				'hospitalizedCumulative',
+				'hospitalizedCurrently',
+				'hospitalizedIncrease',
+				'inIcuCumulative',
+				'inIcuCurrently',
+				'negative',
+				'negativeIncrease',
+				'negativeTestsAntibody',
+				'negativeTestsPeopleAntibody',
+				'negativeTestsViral',
+				'onVentilatorCumulative',
+				'onVentilatorCurrently',
+				'positive',
+				'positiveCasesViral',
+				'positiveIncrease',
+				'positiveScore',
+				'positiveTestsAntibody',
+				'positiveTestsAntigen',
+				'positiveTestsPeopleAntibody',
+				'positiveTestsPeopleAntigen',
+				'positiveTestsViral',
+				'recovered',
+				'totalTestEncountersViral',
+				'totalTestEncountersViralIncrease',	
+				'totalTestResults', 
+				'totalTestResultsIncrease',
+				'totalTestsAntibody',
+				'totalTestsAntigen', 
+				'totalTestsPeopleAntibody',
+				'totalTestsPeopleAntigen',
+				'totalTestsPeopleViral',
+				'totalTestsPeopleViralIncrease',
+				'totalTestsViral',
+				'totalTestsViralIncrease'
 			]
 	template_name = "dashboard/state_detail.html"
 
@@ -126,14 +154,20 @@ class NationalCreateView(LoginRequiredMixin, CreateView):
 	fields = ['date',
 			'death',
 			'deathIncrease',
-			'positive',
-			'negative',
+			'InIcuCumulative',
+			'InIcuCurrently',
+			'hospitalizedIncrease',
 			'hospitalizedCurrently',
 			'hospitalizedCumulative',
-			'inIcuCurrently',
-			'inIcuCumulative',
-			'onVentilatorCurrently',
+			'negative',
+			'negativeIncrease',
 			'onVentilatorCumulative',
+			'onVentilatorCurrently',
+			'positive',
+			'positiveIncrease',
+			'states',
+			'totalTestResults',
+			'totalTestResultIncrease',
 			]
 
 class StateCreateView(LoginRequiredMixin, CreateView):
@@ -143,16 +177,47 @@ class StateCreateView(LoginRequiredMixin, CreateView):
 	success_url = reverse_lazy('dashboard:state-List')
 	template_name = "dashboard/national_create.html"
 	fields = ['date',
-			'state',
-			'death',
-			'positive',
-			'negative',
-			'hospitalizedCurrently',
-			'hospitalizedCumulative',
-			'inIcuCurrently',
-			'inIcuCumulative',
-			'onVentilatorCurrently',
-			'onVentilatorCumulative',
+				'state',
+				'dataQualityGrade',
+				'death',
+				'deathConfirmed',
+				'deathIncrease',
+				'deathProbable',
+				'hospitalized',
+				'hospitalizedCumulative',
+				'hospitalizedCurrently',
+				'hospitalizedIncrease',
+				'inIcuCumulative',
+				'inIcuCurrently',
+				'negative',
+				'negativeIncrease',
+				'negativeTestsAntibody',
+				'negativeTestsPeopleAntibody',
+				'negativeTestsViral',
+				'onVentilatorCumulative',
+				'onVentilatorCurrently',
+				'positive',
+				'positiveCasesViral',
+				'positiveIncrease',
+				'positiveScore',
+				'positiveTestsAntibody',
+				'positiveTestsAntigen',
+				'positiveTestsPeopleAntibody',
+				'positiveTestsPeopleAntigen',
+				'positiveTestsViral',
+				'recovered',
+				'totalTestEncountersViral',
+				'totalTestEncountersViralIncrease',	
+				'totalTestResults', 
+				'totalTestResultsIncrease',
+				'totalTestsAntibody',
+				'totalTestsAntigen', 
+				'totalTestsPeopleAntibody',
+				'totalTestsPeopleAntigen',
+				'totalTestsPeopleViral',
+				'totalTestsPeopleViralIncrease',
+				'totalTestsViral',
+				'totalTestsViralIncrease'
 			]
 
 
@@ -166,14 +231,20 @@ class NationalUpdateView(LoginRequiredMixin, UpdateView):
 	fields = ['date',
 			'death',
 			'deathIncrease',
-			'positive',
-			'negative',
+			'InIcuCumulative',
+			'InIcuCurrently',
+			'hospitalizedIncrease',
 			'hospitalizedCurrently',
 			'hospitalizedCumulative',
-			'inIcuCurrently',
-			'inIcuCumulative',
-			'onVentilatorCurrently',
+			'negative',
+			'negativeIncrease',
 			'onVentilatorCumulative',
+			'onVentilatorCurrently',
+			'positive',
+			'positiveIncrease',
+			'states',
+			'totalTestResults',
+			'totalTestResultIncrease',
 			]
 
 
@@ -182,15 +253,47 @@ class StateUpdateView(LoginRequiredMixin, UpdateView):
 	template_name = "dashboard/state_update.html"
 	success_url = reverse_lazy('dashboard:state-List')
 	fields = ['date',
-			'death',
-			'positive',
-			'negative',
-			'hospitalizedCurrently',
-			'hospitalizedCumulative',
-			'inIcuCurrently',
-			'inIcuCumulative',
-			'onVentilatorCurrently',
-			'onVentilatorCumulative',
+				'state',
+				'dataQualityGrade',
+				'death',
+				'deathConfirmed',
+				'deathIncrease',
+				'deathProbable',
+				'hospitalized',
+				'hospitalizedCumulative',
+				'hospitalizedCurrently',
+				'hospitalizedIncrease',
+				'inIcuCumulative',
+				'inIcuCurrently',
+				'negative',
+				'negativeIncrease',
+				'negativeTestsAntibody',
+				'negativeTestsPeopleAntibody',
+				'negativeTestsViral',
+				'onVentilatorCumulative',
+				'onVentilatorCurrently',
+				'positive',
+				'positiveCasesViral',
+				'positiveIncrease',
+				'positiveScore',
+				'positiveTestsAntibody',
+				'positiveTestsAntigen',
+				'positiveTestsPeopleAntibody',
+				'positiveTestsPeopleAntigen',
+				'positiveTestsViral',
+				'recovered',
+				'totalTestEncountersViral',
+				'totalTestEncountersViralIncrease',	
+				'totalTestResults', 
+				'totalTestResultsIncrease',
+				'totalTestsAntibody',
+				'totalTestsAntigen', 
+				'totalTestsPeopleAntibody',
+				'totalTestsPeopleAntigen',
+				'totalTestsPeopleViral',
+				'totalTestsPeopleViralIncrease',
+				'totalTestsViral',
+				'totalTestsViralIncrease'
 			]
 
 #Give only admin users the ability to upload a new CSV
@@ -244,7 +347,7 @@ def national_data_upload(request):
 	
 
 
-	next(io_string)
+	
 
 
 	if no_errors:
@@ -253,14 +356,19 @@ def national_data_upload(request):
 				date = datetime.strptime(col[0], "%Y-%m-%d"),
 				death = int(float(col[1])),
 				deathIncrease = int(float(col[2])),
-				inIcuCumulative = int(float(col[3])),
-				inIcuCurrently = int(float(col[4])),
-				hospitalizedCurrently = int(float(col[5])),
-				hospitalizedCumulative = int(float(col[6])),
-				negative = int(float(col[7])),
-				onVentilatorCumulative = int(float(col[8])),
-				onVentilatorCurrently = int(float(col[9])),
-				positive = int(float(col[10])),
+				InIcuCumulative = int(float(col[3])),
+				InIcuCurrently = int(float(col[4])),
+				hospitalizedIncrease = int(float(col[5])),
+				hospitalizedCurrently = int(float(col[6])),
+				hospitalizedCumulative = int(float(col[7])),
+				negative = int(float(col[8])),
+				negativeIncrease = int(float(col[9])),
+				onVentilatorCumulative = int(float(col[10])),
+				onVentilatorCurrently = int(float(col[11])),
+				positive = int(float(col[12])),
+				positiveIncrease = int(float(col[13])),
+				states = int(float(col[14])),
+				totalTestResults = int(float(col[15])),
 				)
 	context = {}
 	return render(request, "dashboard/national_data_upload.html", context)
@@ -293,7 +401,7 @@ def state_data_upload(request):
 		break
 
 
-	expected_names = National.get_expected_names()
+	expected_names = State.get_expected_names()
 	#verifying CSV file is correct length
 	if no_errors:
 		if (len(expected_names) != len(new_names)):
@@ -310,22 +418,52 @@ def state_data_upload(request):
 
 
 
-	next(io_string)
 
 	if no_errors:
 		for col in csv.reader(io_string, delimiter=',', quotechar="|"):
 			_, temp = State.objects.update_or_create(
 				date = datetime.strptime(col[0], "%Y-%m-%d"),
 				state = col[1],
-				death = int(float(col[2])),
-				hospitalizedCumulative = int(float(col[3])),
-				hospitalizedCurrently = int(float(col[4])),
-				inIcuCumulative = int(float(col[5])),
-				inIcuCurrently = int(float(col[6])),
-				negative = int(float(col[7])),
-				onVentilatorCumulative = int(float(col[8])),
-				onVentilatorCurrently = int(float(col[9])),	
-				positive = int(float(col[10])),	
+				dataQualityGrade = col[2],
+				death = int(float(col[3])),
+				deathConfirmed = int(float(col[4])),
+				deathIncrease = int(float(col[5])),
+				deathProbable = int(float(col[6])),
+				hospitalized = int(float(col[7])),
+				hospitalizedCumulative = int(float(col[8])),
+				hospitalizedCurrently = int(float(col[9])),
+				hospitalizedIncrease = int(float(col[10])),
+				inIcuCumulative = int(float(col[11])),
+				inIcuCurrently = int(float(col[12])),
+				negative = int(float(col[13])),
+				negativeIncrease = int(float(col[14])),
+				negativeTestsAntibody = int(float(col[15])),
+				negativeTestsPeopleAntibody = int(float(col[16])),
+				negativeTestsViral = int(float(col[17])),	
+				onVentilatorCumulative = int(float(col[18])),
+				onVentilatorCurrently = int(float(col[19])),
+				positive = int(float(col[20])),
+				positiveCasesViral = int(float(col[21])),	
+				positiveIncrease = int(float(col[22])),	
+				positiveScore = int(float(col[23])),	
+				positiveTestsAntibody = int(float(col[24])),	
+				positiveTestsAntigen = int(float(col[25])),	
+				positiveTestsPeopleAntibody = int(float(col[26])),	
+				positiveTestsPeopleAntigen = int(float(col[27])),	
+				positiveTestsViral = int(float(col[28])),	
+				recovered = int(float(col[29])),
+				totalTestEncountersViral = int(float(col[30])),	
+				totalTestEncountersViralIncrease = int(float(col[31])),	
+				totalTestResults = int(float(col[32])),	
+				totalTestResultsIncrease = int(float(col[33])),	
+				totalTestsAntibody = int(float(col[34])),	
+				totalTestsAntigen = int(float(col[35])),	
+				totalTestsPeopleAntibody = int(float(col[36])),	
+				totalTestsPeopleAntigen = int(float(col[37])),	
+				totalTestsPeopleViral = int(float(col[38])),	
+				totalTestsPeopleViralIncrease = int(float(col[39])),	
+				totalTestsViral = int(float(col[40])),	
+				totalTestsViralIncrease = int(float(col[41])),
 				)
 
 	context = {}
