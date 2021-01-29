@@ -22,9 +22,13 @@ urlpatterns = [
 	path('State/create/', views.StateCreateView.as_view(), name='state-create'),
 	path('National/<int:pk>/delete/', views.NationalDeleteView.as_view(), name='national-delete'),
 	path('State/<int:pk>/delete/', views.StateDeleteView.as_view(), name='state-delete'),
-	path('api/statechart/data', views.StateChartData.as_view(), name='api-statechart-data'),
-	path('api/nationalchart/data', views.NationalChartData.as_view(), name='api-nationalchart-data'),
+	
 	path('donations/', views.DonationsView, name='donations'),
+
+	path('api/statechart1/data', views.StateChartData1.as_view(), name='api-statechart1-data'),
+	path('api/nationalchart1/data', views.NationalChartData1.as_view(), name='api-nationalchart1-data'),
+	path('api/statechart2/data', views.StateChartData2.as_view(), name='api-statechart2-data'),
+	path('api/nationalchart2/data', views.NationalChartData2.as_view(), name='api-nationalchart2-data'),
 
 
 ]

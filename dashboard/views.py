@@ -473,7 +473,7 @@ def state_data_upload(request):
 
 
 #Render data for chart of deaths per state
-class StateChartData(APIView): 
+class StateChartData1(APIView): 
 	authentication_classes = [] 
 	permission_classes = [] 
    
@@ -499,7 +499,7 @@ class StateChartData(APIView):
 
 
 #Render data for top 50 most deadly days in the US 
-class NationalChartData(APIView): 
+class NationalChartData1(APIView): 
 	authentication_classes = [] 
 	permission_classes = [] 
    
@@ -512,6 +512,56 @@ class NationalChartData(APIView):
 			print(entry)
 			labelsView.append(entry.__dict__['date'])
 			dataView.append(entry.__dict__['deathIncrease'])
+		
+			
+
+		chartLabel = "Chart of Deaths Nationally by Day"
+		data = {
+			'labelsView': labelsView,
+			'dataView': dataView,
+			'chartLabel': chartLabel,
+		}
+		return Response(data)
+
+
+class NationalChartData2(APIView): 
+	authentication_classes = [] 
+	permission_classes = [] 
+   
+	def get(self, request, format = None): 
+		labelsView = []
+		dataView = []
+		queryset = National.objects.annotate(month=Month('date')).values('month').annoate(month_deaths=Sum('positiveIncrease')).order_by("-months_deaths")
+
+		for entry in queryset:
+			print(entry)
+			labelsView.append(entry.__dict__['date'])
+			dataView.append(entry.__dict__['month_deaths'])
+		
+			
+
+		chartLabel = "Chart of Deaths Nationally by Day"
+		data = {
+			'labelsView': labelsView,
+			'dataView': dataView,
+			'chartLabel': chartLabel,
+		}
+		return Response(data)
+
+
+class StateChartData2(APIView): 
+	authentication_classes = [] 
+	permission_classes = [] 
+   
+	def get(self, request, format = None): 
+		labelsView = []
+		dataView = []
+		queryset = State.objects.values('state').annotate(max_positives=Max('positive')).order_by('-max_positives')
+
+		for entry in queryset:
+			print(entry)
+			labelsView.append(entry.__dict__['date'])
+			dataView.append(entry.__dict__['max_positives'])
 		
 			
 

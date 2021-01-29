@@ -43,7 +43,7 @@ function get_random_color() {
 
     return 'rgb(' + h + ',' + s + ',' + l + ')';
   }
-var endpoint='/api/statechart/data'
+var endpoint='/api/statechart1/data'
 var tableData=[]
 var chartlabel=[]
 $.ajax({
@@ -80,7 +80,7 @@ $.ajax({
   }
   
 })
-var endpoint='/api/nationalchart/data'
+var endpoint='/api/nationalchart1/data'
 var tableData=[]
 var chartlabel=[]
 $.ajax({
@@ -93,6 +93,70 @@ $.ajax({
     var ctx= document.getElementById('myChart2')
     var myChart = new Chart(ctx, {
       type:'bar',
+      data: {
+        labels: chartlabels,
+        datasets: [{
+          label: data.chartLabel,
+          data: tableData,
+          backgroundColor: 'blue',
+        
+
+        }]
+      }
+
+    })
+  },
+  error: function(error_data) {
+    console.log("error")
+    console.log(error_data)
+  }
+  
+})
+var endpoint='/api/statechart2/data'
+var tableData=[]
+var chartlabel=[]
+$.ajax({
+  method: "GET",
+  url: endpoint,
+  success: function(data) {
+    console.log(data)
+    tableData = data.dataView
+    chartlabels = data.labelsView
+    var ctx= document.getElementById('myChart2')
+    var myChart = new Chart(ctx, {
+      type:'bar',
+      data: {
+        labels: chartlabels,
+        datasets: [{
+          label: data.chartLabel,
+          data: tableData,
+          backgroundColor: 'blue',
+        
+
+        }]
+      }
+
+    })
+  },
+  error: function(error_data) {
+    console.log("error")
+    console.log(error_data)
+  }
+  
+})
+var endpoint='/api/nationalchart2/data'
+var tableData=[]
+var chartlabel=[]
+$.ajax({
+  method: "GET",
+  url: endpoint,
+  success: function(data) {
+    console.log(data)
+    tableData = data.dataView
+    chartlabels = data.labelsView
+    var ctx= document.getElementById('myChart2')
+    var myChart = new Chart(ctx, {
+      type:'line',
       data: {
         labels: chartlabels,
         datasets: [{
