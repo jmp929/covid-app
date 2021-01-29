@@ -16,6 +16,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from rest_framework.views import APIView 
 from rest_framework.response import Response 
 from django.db.models import Sum, Max
+from django.db.models.functions import TruncMonth
 
 
 def DonationsView(request):
@@ -531,16 +532,16 @@ class NationalChartData2(APIView):
 	def get(self, request, format = None): 
 		labelsView = []
 		dataView = []
-		queryset = National.objects.annotate(month=Month('date')).values('month').annoate(month_deaths=Sum('positiveIncrease')).order_by("-months_deaths")
-
+		queryset = National.objects.annotate(month=TruncMonth('date')).values('month').annotate(month_deaths=Sum('positiveIncrease')).order_by("-month_deaths")
+	
 		for entry in queryset:
 			print(entry)
-			labelsView.append(entry.__dict__['date'])
-			dataView.append(entry.__dict__['month_deaths'])
+			labelsView.append(entry['month'])
+			dataView.append(entry['month_deaths'])
 		
 			
 
-		chartLabel = "Chart of Deaths Nationally by Day"
+		chartLabel = "Chart of Most Deadly Months Nationally"
 		data = {
 			'labelsView': labelsView,
 			'dataView': dataView,
@@ -560,12 +561,13 @@ class StateChartData2(APIView):
 
 		for entry in queryset:
 			print(entry)
-			labelsView.append(entry.__dict__['date'])
-			dataView.append(entry.__dict__['max_positives'])
+			labelsView.append(entry['state'])
+			dataView.append(entry['max_positives'])
 		
 			
 
-		chartLabel = "Chart of Deaths Nationally by Day"
+		chartLabel = "Chart of Positive Tests per State"
+
 		data = {
 			'labelsView': labelsView,
 			'dataView': dataView,
